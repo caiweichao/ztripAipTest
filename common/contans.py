@@ -24,6 +24,8 @@ sit_conf = os.path.join(conf_dir, 'SIT.ini')
 uat_conf = os.path.join(conf_dir, 'UAT.ini')
 # pro配置文件
 pro_conf = os.path.join(conf_dir, 'PRO.ini')
+# 测试用例文件路径
+caseFile = os.path.join(datas_dir, 'TestCase.xlsx')
 
 # -----------日志常量管理-----------------
 # 日志输出格式
@@ -32,4 +34,7 @@ formatter = '%(asctime)s-%(filename)s-%(levelname)s-%(message)s'
 log_time = 7
 
 # ----------测试基础数据------------------
-url = "https://www.z-trip.cn"
+
+passport_url = 'https://passport.z-trip.cn/jsonp/'  # 获取登录key的url
+
+all_url = 'https://ms.z-trip.cn/'  # 接口的url

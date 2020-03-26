@@ -83,10 +83,4 @@ class doExcel:
                 log.error(f'写入excel异常请检查\n{e}')
 
 if __name__ == '__main__':
-    doExcel = doExcel('../datas/TestCase.xlsx')
-    case = doExcel.getSheetCase(sheetName='passport_login')
-    title = doExcel.getTitle(sheetName='passport_login')
-    for x in case:
-        print(x.data)
-    for x in title:
-        print(x)
+    pass
