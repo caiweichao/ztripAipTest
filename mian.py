@@ -1,6 +1,6 @@
 import os
 import pytest
 
-pytest.main(['-s', '-q', '--alluredir=./report'])
+pytest.main(['-s', '-q', '--alluredir=./result'])
 # os.system('allure serve ./report')
-# os.system('allure generate  ./report/allure_results/ -o unit/allure_html')
+os.system('allure generate  ./result -o ./reprot --clean')
