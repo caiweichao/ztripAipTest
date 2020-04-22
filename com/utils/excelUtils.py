@@ -1,29 +1,28 @@
 import openpyxl
 
-from common.logs import log
+from com.utils.logUtil import log
+from com.resources import contants
 
-
-class test_case:
-    # 初始化测试用例
-    def __init__(self):
-        self.caseId = None
-        self.title = None
-        self.url = None
-        self.data = None
-        self.method = None
-        self.expected = None
-        self.actual = None
-        self.result = None
+class TestCase:
+    caseId = None
+    title = None
+    url = None
+    data = None
+    method = None
+    expected = None
+    actual = None
+    result = None
+    sql = None
 
 
 class doExcel:
-    def __init__(self, fileName):
+    def __init__(self):
         try:
-            self.fileName = fileName
-            log.info(f'打开测试用例数据文件:{fileName}')
-            self.wookBook = openpyxl.load_workbook(filename=fileName)
+            self.fileName = contants.caseFile
+            log.info(f'打开测试用例数据文件:{self.fileName}')
+            self.wookBook = openpyxl.load_workbook(filename=self.fileName)
         except FileNotFoundError as e:
-            log.error(f'用例文件: {fileName}不存在请检查\n{e}')
+            log.error(f'用例文件: {self.fileName}不存在请检查\n{e}')
 
     # 读取指定sheet里的用例存放到testCases中
     def getSheetCase(self, sheetName):
@@ -35,7 +34,7 @@ class doExcel:
         # 跳过标同
         for row in range(2, maxRow + 1):
             # 实例化测试用例容器
-            testCase = test_case()
+            testCase = TestCase()
             # 定位testCase中每个内容在sheet中的位置
             testCase.caseId = sheet.cell(row=row, column=1).value
             testCase.title = sheet.cell(row=row, column=2).value
@@ -82,5 +81,9 @@ class doExcel:
             except Exception as e:
                 log.error(f'写入excel异常请检查\n{e}')
 
+
 if __name__ == '__main__':
-    pass
+    XX = doExcel()
+    aa = XX.getTitle('passport_login')
+    for x in aa:
+        print(x)

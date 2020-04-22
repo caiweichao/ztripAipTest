@@ -1,8 +1,7 @@
-from common import contans
-from common import logManagement
+from com.resources import contants
+from com.utils import logManagement
 import logging
 import os
-
 
 '''
 #日志记录--记录用例名称，用例数据，用例返回值输出进入info文件
@@ -39,13 +38,13 @@ class log:
     # 实例化文件管理类
     log_management = logManagement.LogManagement()
     # 调用创建文件,传参确认文字日志
-    log_dir = log_management.get_log_dir(logs_path=contans.text_log)
+    log_dir = log_management.get_log_dir(logs_path=contants.text_log)
     # 指定输出文件
     log_file = os.path.join(log_dir, 'info.log')
     error_file = os.path.join(log_dir, 'error.log')
 
     # 设置日志输出格式
-    formatter = logging.Formatter(contans.formatter)
+    formatter = logging.Formatter(contants.formatter)
     # 指定输出渠道
     # 控制台输出
     ch = logging.StreamHandler()

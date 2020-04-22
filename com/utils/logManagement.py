@@ -4,7 +4,7 @@
 import os
 import time
 import shutil
-from common import contans
+from com.resources import contants
 
 
 def get_current_day():  # 获取当天
@@ -16,7 +16,7 @@ def delect_log_dir(logs_path):  # 删除n天之前的全部日志文件
     # 循环指定路径取出指定路径下全部的文件夹名称
     for folder in folders:
         # 判断文件夹是不是七天之前创建的如果是就删除
-        if int(folder) < int(get_current_day()) - contans.log_time:
+        if int(folder) < int(get_current_day()) - contants.log_time:
             shutil.rmtree(os.path.join(logs_path, folder))
 
 

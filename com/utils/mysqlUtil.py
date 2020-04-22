@@ -1,7 +1,7 @@
 import pymysql
 
-from common.config import ConfigLoader
-from common.logs import log
+from com.utils.configUtils import ConfigLoader
+from com.utils.logUtil import log
 
 
 # 连接数据库建立游标，执行sql，关闭数据库
@@ -10,10 +10,16 @@ class mysqlUtil:
 
     def __init__(self, connectName):
         config = ConfigLoader()
-        host = config.get(connectName, 'host')
-        user = config.get(connectName, 'user')
-        pwd = config.get(connectName, 'pwd')
-        port = config.getint(connectName, 'port')
+        if connectName != 'mysql':
+            host = config.get(connectName, 'host')
+            user = config.get(connectName, 'user')
+            pwd = config.get(connectName, 'pwd')
+            port = config.getint(connectName, 'port')
+        else:
+            host = config.get('mysql', 'host')
+            user = config.get('mysql', 'user')
+            pwd = config.get('mysql', 'pwd')
+            port = config.getint('mysql', 'port')
         try:
             self.db = pymysql.connect(host=host, user=user, password=pwd, database=None, port=int(port))
         except TimeoutError as e:
@@ -27,33 +33,37 @@ class mysqlUtil:
     # 查询单条数据并且返回 可以通过sql查询指定的值 也可以通过索引去选择指定的值
     def fetch_one(self, sqlValue, name=None):
         # 修改返回值为数组键值对 cursor=pymysql.cursors.DictCursor
-        cursor = self.db.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor = self.db.cursor()
         try:
             # 按照sql进行查询
             cursor.execute(sqlValue)
             if name is None:
                 # 返回一条数据 还有 all size（自己控制）
                 data = cursor.fetchone()
-                return data
+                return data[0]
             elif name is not None:
                 data = cursor.fetchone()
-                return data[name]
+                return data[0]
         except Exception as e:
             log.error(f"请检查sql是否正确 sql={sqlValue}")
             raise e
+        finally:
+            self.close_connect()
 
     def fetch_all(self, sqlValue):  # 查询多条数据并且返回
         # 修改返回值为数组键值对 cursor=pymysql.cursors.DictCursor
-        cursor = self.db.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor = self.db.cursor()
         try:
             # 按照sql进行查询
             cursor.execute(sqlValue)
             # 返回一条数据 还有 all size（自己控制）
             data = cursor.fetchall()
+            return data
         except pymysql.err.ProgrammingError as e:
             log.error(f"请检查sql是否正确 sql={sqlValue}")
             raise e
-        return data
+        finally:
+            self.close_connect()
 
     def close_connect(self):
         # 关闭数据库链接
@@ -61,6 +71,6 @@ class mysqlUtil:
 
 
 if __name__ == '__main__':
-    mysql = mysqlUtil('mysql_ota')
-    x= mysql.fetch_one("select BIZ_TYPE from tem_oms.ota_order where ID= 103121812443264;",'BIZ_TYPE')
+    mysql = mysqlUtil('mysql')
+    x = mysql.fetch_one("select * from tem_oms_uat.ota_order where ID= 102105308090496;", 'BIZ_TYPE')
     print(x)

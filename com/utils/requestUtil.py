@@ -1,6 +1,7 @@
 import requests
+import allure
 
-from common.logs import log
+from com.utils.logUtil import log
 
 
 class request:
@@ -11,10 +12,10 @@ class request:
     :param cookies: 请求中带的cookie
     :param header: 请求头
     '''
-
+    @allure.step("发起请求")
     def __init__(self, method, url, data=None, cookies=None, header=None):
         try:
-            log.info(f'开始发起请求: 请求方式{method}， 请求url={url}， \n请求参数={data} \n请求cookie={cookies}')
+            log.info(f'开始发起请求: 请求方式{method}， 请求url={url}， \n请求参数={data}')
             if method == 'get':
                 self.res = requests.get(url=url, params=data, cookies=cookies)
             elif method == 'post':
