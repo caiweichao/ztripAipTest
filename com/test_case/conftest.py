@@ -4,7 +4,7 @@ from com.utils.jsonUtil import jsonUtil
 from com.utils.requestUtil import request
 
 _passportUrl = 'https://passport.z-trip.cn/jsonp/login.json'
-_datas = "service=https://ws.z-trip.cn&username=13248231369&password=cai123456"
+_datas = "service=https://ws.z-trip.cn&username=13248231369&password=cai000000"
 
 
 # 获取登录的cookie不在测试登录

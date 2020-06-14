@@ -1,7 +1,8 @@
-import openpyxl
-
+from typing import List
 from com.utils.logUtil import log
 from com.resources import contants
+import openpyxl
+
 
 class TestCase:
     caseId = None
@@ -15,22 +16,29 @@ class TestCase:
     sql = None
 
 
+class ApiID:
+    apiId = None
+    apiName = None
+    apiUrl = None
+    apiMethod = None
+
+
 class doExcel:
     def __init__(self):
         try:
             self.fileName = contants.caseFile
             log.info(f'打开测试用例数据文件:{self.fileName}')
-            self.wookBook = openpyxl.load_workbook(filename=self.fileName)
+            self.workBook = openpyxl.load_workbook(filename=self.fileName)
         except FileNotFoundError as e:
             log.error(f'用例文件: {self.fileName}不存在请检查\n{e}')
 
     # 读取指定sheet里的用例存放到testCases中
-    def getSheetCase(self, sheetName):
-        sheet = self.wookBook[sheetName]
+    def getSheetCase(self, sheetName: str):
+        sheet = self.workBook[sheetName]
         # 获取sheet的最大行数
         maxRow = sheet.max_row
         # 定义测试用例存放的容器
-        testCases = []
+        testCases: List[TestCase] = []
         # 跳过标同
         for row in range(2, maxRow + 1):
             # 实例化测试用例容器
@@ -48,7 +56,7 @@ class doExcel:
 
     # 获取testCase的标题用于处理测试报告
     def getTitle(self, sheetName):
-        sheet = self.wookBook[sheetName]
+        sheet = self.workBook[sheetName]
         max_row = sheet.max_row
         titles = []
         for row in range(2, max_row + 1):
@@ -65,7 +73,7 @@ class doExcel:
     '''
 
     def writeExcel(self, sheetName, caseId, actual, result):
-        sheet = self.wookBook[sheetName]
+        sheet = self.workBook[sheetName]
         maxRow = sheet.max_row
         for row in range(2, maxRow + 1):
             # 取出每一行的caseId
@@ -76,7 +84,7 @@ class doExcel:
                     # 写入 actual 和 result
                     sheet.cell(row, 7).value = actual
                     sheet.cell(row, 8).value = result
-                    self.wookBook.save(filename=self.fileName)
+                    self.workBook.save(filename=self.fileName)
                     break
             except Exception as e:
                 log.error(f'写入excel异常请检查\n{e}')

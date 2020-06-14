@@ -37,4 +37,4 @@ class Test_getTravelCost:
         cookies = getattr(basicData, 'cookie')
         res = request(method=testCase.method, url=contants.webUrl + testCase.url, data=json.loads(testCase.data),
                       cookies=cookies)
-        print(res.get_json())
+
